@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EuroWare | Roblox Exploits</title>
+<style>
+    /* Base Reset & Fonts */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: #0b0e14; color: #ffffff; overflow-x: hidden; }
+
+    /* --- INTRO SCREEN --- */
+    #intro-screen {
+        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+        background-color: #000000; display: flex; justify-content: center; align-items: center;
+        z-index: 9999; transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+    }
+    .typewriter-text {
+        font-size: 6rem; font-weight: 900; letter-spacing: 5px;
+        background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+        border-right: 4px solid rgba(0, 212, 255, 1); white-space: nowrap; overflow: hidden;
+        animation: blinkCursor 0.75s step-end infinite;
+    }
+    @keyframes blinkCursor { from, to { border-color: transparent } 50% { border-color: rgba(0, 212, 255, 1) } }
+
+    /* --- MAIN WEBSITE --- */
+    #main-content { opacity: 0; transition: opacity 1.5s ease-in-out; display: none; padding-bottom: 50px; }
+
+    /* Navigation */
+    nav {
+        display: flex; justify-content: space-between; align-items: center; padding: 20px 50px;
+        background: rgba(11, 14, 20, 0.9); border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+        position: sticky; top: 0; z-index: 100;
+    }
+    .nav-links { display: flex; gap: 20px; align-items: center; }
+    .nav-links a { color: #a0a5b5; text-decoration: none; font-weight: 600; transition: 0.3s; cursor: pointer; }
+    .nav-links a:hover { color: #00d4ff; }
+    .logo {
+        font-size: 1.8rem; font-weight: bold;
+        background: linear-gradient(90deg, #090979, #00d4ff);
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .discord-btn { background: #5865F2; color: white !important; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold; transition: 0.3s; }
+    .discord-btn:hover { background: #4752C4; box-shadow: 0 0 15px rgba(88, 101, 242, 0.5); }
+
+    /* Hero Section */
+    .hero { text-align: center; padding: 80px 20px; background: radial-gradient(circle at center, rgba(9, 9, 121, 0.2) 0%, rgba(11, 14, 20, 1) 70%); }
+    .hero h1 { font-size: 4rem; margin-bottom: 20px; }
+    .hero p { font-size: 1.2rem; color: #a0a5b5; max-width: 600px; margin: 0 auto 30px auto; }
+    .download-btn {
+        background: linear-gradient(90deg, #090979 0%, #00d4ff 100%); color: white;
+        padding: 15px 40px; border-radius: 30px; text-decoration: none; font-size: 1.2rem;
+        font-weight: bold; transition: 0.3s; display: inline-block;
+    }
+    .download-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(0, 212, 255, 0.4); }
+
+    /* Showcase Section */
+    .showcase { padding: 50px 20px; max-width: 1200px; margin: 0 auto; }
+    .showcase h2, .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 50px; color: #00d4ff; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+    .feature-card { background: #131823; border: 1px solid rgba(0, 212, 255, 0.1); border-radius: 10px; padding: 20px; transition: 0.3s; }
+    .feature-card:hover { border-color: #00d4ff; transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); }
+    .feature-card h3 { margin-bottom: 15px; color: #e2e8f0; font-size: 1.5rem; border-left: 4px solid #00d4ff; padding-left: 10px; }
+    .feature-card img { width: 100%; border-radius: 5px; margin-bottom: 15px; border: 1px solid rgba(255, 255, 255, 0.1); }
+    .feature-card p { color: #a0a5b5; line-height: 1.6; }
+
+    /* Script Section */
+    #script-section { max-width: 900px; margin: 0 auto; padding: 50px 20px; display: none; }
+    .code-container { background: #000000; border: 1px solid #333; border-radius: 8px; padding: 20px; position: relative; margin-top: 20px; }
+    .code-container pre { color: #00d4ff; font-family: 'Courier New', Courier, monospace; font-size: 1rem; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word; }
+    .copy-btn {
+        position: absolute; top: 15px; right: 15px; background: #00d4ff; color: #000;
+        border: none; padding: 8px 15px; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.2s;
+    }
+    .copy-btn:hover { background: #fff; }
+
+    /* Credits Section */
+    #credits-section { text-align: center; padding: 60px 20px; background: #131823; border-top: 1px solid rgba(0, 212, 255, 0.1); margin-top: 50px; }
+    .credit-list { list-style: none; font-size: 1.2rem; line-height: 2; color: #a0a5b5; }
+    .credit-list span { color: #00d4ff; font-weight: bold; }
+    footer { text-align: center; padding: 40px; color: #666; border-top: 1px solid rgba(255, 255, 255, 0.05); }
+</style>
+</head>
+<body>
+
+    <!-- INTRO SCREEN -->
+    <div id="intro-screen">
+        <div class="typewriter-text" id="typewriter"></div>
+    </div>
+
+    <!-- MAIN WEBSITE -->
+    <div id="main-content">
+        <nav>
+            <div class="logo">EuroWare</div>
+            <div class="nav-links">
+                <a onclick="showTab('home')">Home</a>
+                <a onclick="showTab('script')">Script</a>
+                <a href="https://discord.gg/XQumGwF4KJ" class="discord-btn" target="_blank">Join Discord</a>
+            </div>
+        </nav>
+
+        <!-- HOME TAB -->
+        <div id="home-tab">
+            <section class="hero">
+                <h1>EuroWare</h1>
+                <p>The most advanced, undetected UI library for Roblox. Dominate the game with our premium combat, visual, and trolling features.</p>
+                <!-- You can change href to your direct file download if you have one -->
+                <a href="#" class="download-btn">Download Now</a>
+            </section>
+
+            <section class="showcase">
+                <h2>Tool Showcase</h2>
+                <div class="features-grid">
+                    
+                    <!-- Combat Card -->
+                    <div class="feature-card">
+                        <h3>Combat</h3>
+                        <img src="combat.png" alt="Combat Features - Aimbot">
+                        <p>Take full control with our advanced Aimbot. Customize your Aim Part, adjust Field of View (FOV), and tweak Smoothness for perfectly legit or fully blatant gameplay.</p>
+                    </div>
+
+                    <!-- Visuals Card -->
+                    <div class="feature-card">
+                        <h3>Visuals</h3>
+                        <img src="visuals.png" alt="Visual Features - ESP">
+                        <p>Never lose track of your enemies. Enable Green Box ESP to see players through walls, and use Tracers for pinpoint accuracy on where they are coming from.</p>
+                    </div>
+
+                    <!-- Trolling Card -->
+                    <div class="feature-card">
+                        <h3>Trolling</h3>
+                        <img src="trolling.png" alt="Trolling Features - Chat Spammer">
+                        <p>Cause absolute chaos. Use the customizable Chat Spammer with custom delays, or execute commands directly through our built-in Console printer.</p>
+                    </div>
+
+                </div>
+            </section>
+        </div>
+
+        <!-- SCRIPT TAB -->
+        <div id="script-section">
+            <h2 class="section-title">Loadstring Script</h2>
+            <p style="text-align: center; color: #a0a5b5;">Copy the code below to execute EuroWare in your executor.</p>
+            
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyScript()">Copy</button>
+                <pre><code id="script-code">loadstring(game:HttpGet("https://raw.githubusercontent.com/zerodiedx/euroware/main/main.lua"))()</code></pre>
+            </div>
+        </div>
+
+        <!-- CREDITS SECTION -->
+        <section id="credits-section">
+            <h2 class="section-title">Credits</h2>
+            <ul class="credit-list">
+                <li><strong>Dev:</strong> <span>Morgue</span> (Discord: @slammedthedoorinmyface)</li>
+                <li><strong>Helper / Tester:</strong> <span>@nowherealiveonthisworld</span> (Discord)</li>
+                <li style="margin-top: 20px;">Join our community: <a href="https://discord.gg/XQumGwF4KJ" style="color: #5865F2; text-decoration: none; font-weight: bold;">discord.gg/XQumGwF4KJ</a></li>
+            </ul>
+        </section>
+
+        <footer>
+            <p>&copy; 2023 EuroWare. All rights reserved. Not affiliated with Roblox Corporation.</p>
+        </footer>
+    </div>
+
+    <script>
+        // --- TYPEWRITER EFFECT LOGIC ---
+        const textToType = "EURO";
+        const typewriterElement = document.getElementById("typewriter");
+        const introScreen = document.getElementById("intro-screen");
+        const mainContent = document.getElementById("main-content");
+        
+        let i = 0;
+        function typeWriter() {
+            if (i < textToType.length) {
+                typewriterElement.innerHTML += textToType.charAt(i);
+                i++;
+                setTimeout(typeWriter, 250);
+            } else {
+                setTimeout(() => {
+                    typewriterElement.style.animation = "none";
+                    typewriterElement.style.borderRight = "none";
+                    introScreen.style.opacity = "0";
+                    
+                    setTimeout(() => {
+                        introScreen.style.visibility = "hidden";
+                        mainContent.style.display = "block";
+                        setTimeout(() => { mainContent.style.opacity = "1"; }, 50);
+                    }, 1000);
+                }, 1000);
+            }
+        }
+        window.onload = () => { setTimeout(typeWriter, 500); };
+
+        // --- TAB SWITCHING LOGIC ---
+        function showTab(tabName) {
+            const homeTab = document.getElementById('home-tab');
+            const scriptTab = document.getElementById('script-section');
+
+            if (tabName === 'home') {
+                homeTab.style.display = 'block';
+                scriptTab.style.display = 'none';
+            } else if (tabName === 'script') {
+                homeTab.style.display = 'none';
+                scriptTab.style.display = 'block';
+            }
+        }
+
+        // --- COPY TO CLIPBOARD LOGIC ---
+        function copyScript() {
+            const codeText = document.getElementById("script-code").innerText;
+            navigator.clipboard.writeText(codeText).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.innerText = 'Copied!';
+                btn.style.background = '#4ade80';
+                setTimeout(() => {
+                    btn.innerText = 'Copy';
+                    btn.style.background = '#00d4ff';
+                }, 2000);
+            }).catch(err => {
+                alert("Failed to copy script. Please copy manually.");
+            });
+        }
+    </script>
+</body>
+</html>
